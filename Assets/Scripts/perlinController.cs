@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class perlinController : MonoBehaviour
 {
@@ -9,6 +10,15 @@ public class perlinController : MonoBehaviour
 
     [SerializeField]
     public GameObject cubePrefab = null;
+
+    public Slider One_Dimensional_x_slider;
+    public Slider Two_Dimensional_x_slider;
+    public Slider Two_Dimensional_y_slider;
+    public Slider Three_Dimensional_x_slider;
+    public Slider Three_Dimensional_y_slider;
+
+    public int x_offset_input;
+    public int y_offset_input;
 
     int min_x = -10;
     int max_x = 10;
@@ -22,27 +32,12 @@ public class perlinController : MonoBehaviour
     public float scale = 0.1f;
     public float magnitude = 12f;
 
-    public int x_offset_input = 0;
-    public int y_offset_input = 0;
-
-    public void set_x_offset(int x)
-    {
-        x_offset_input = x;
-        updateMapStagnate();
-    }
-
-    public void set_y_offset(int y)
-    {
-        y_offset_input = y;
-        updateMapStagnate();
-    }
-
     void generatePoints()
     {
         points.Clear();
-        for(int x = min_x; x < max_x; x++)
+        for (int x = min_x; x < max_x; x++)
         {
-            for(int y = min_y; y < max_y; y++)
+            for (int y = min_y; y < max_y; y++)
             {
                 points.Add(new Vector2Int(x, y));
             }
@@ -52,29 +47,47 @@ public class perlinController : MonoBehaviour
     void generateCubes()
     {
 
-        foreach(Vector2Int point in points)
+        foreach (Vector2Int point in points)
         {
-            // Instantiate as a child of this object
-            
             GameObject cube = Instantiate(cubePrefab);
             cube.transform.parent = transform;
-            cube.SetActive(true);
+
             cube.transform.position = new Vector3(point.x, 0, point.y);
-    
+
             cubes.Add(cube);
 
-            float y = Mathf.PerlinNoise((x_offset_input+offset_x+point.x)*scale, (y_offset_input+offset_y+point.y)*scale)*magnitude;
+            float xCoord = (x_offset_input + offset_x + point.x) * scale;
+            float yCoord = (y_offset_input + offset_y + point.y) * scale;
+            float y = Mathf.PerlinNoise(xCoord, yCoord) * magnitude;
+
             cube.transform.localScale = new Vector3(1, y, 1);
+            cube.SetActive(true);
         }
     }
 
-    // Start is called before the first frame update
+    void updateCubesPositions()
+    {
+        foreach (Vector2Int point in points)
+        {
+            int index = (point.x - min_x) + (point.y - min_y) * (max_x - min_x);
+
+            float xCoord = (x_offset_input + offset_x + point.x) * scale;
+            float yCoord = (y_offset_input + offset_y + point.y) * scale;
+
+            float y = Mathf.PerlinNoise(xCoord, yCoord) * magnitude;
+
+            cubes[index].transform.position = new Vector3(point.x, y / 2, point.y);
+            cubes[index].transform.localScale = new Vector3(1, y, 1);
+        }
+    }
+
     void Start()
     {
         updateMap();
     }
 
-    void randomizeOffset(){
+    void randomizeOffset()
+    {
         offset_x = UnityEngine.Random.Range(-1000, 1000);
         offset_y = UnityEngine.Random.Range(-1000, 1000);
     }
@@ -82,33 +95,42 @@ public class perlinController : MonoBehaviour
     public void updateMap()
     {
         randomizeOffset();
+        One_Dimensional_x_slider.onValueChanged.AddListener(UpdateXSliderValue);
+        Two_Dimensional_x_slider.onValueChanged.AddListener(UpdateXSliderValue);
+        Two_Dimensional_y_slider.onValueChanged.AddListener(UpdateYSliderValue);
+        Three_Dimensional_x_slider.onValueChanged.AddListener(UpdateXSliderValue);
+        Three_Dimensional_y_slider.onValueChanged.AddListener(UpdateYSliderValue);
 
-        foreach(GameObject cube in cubes)
-        {
-            Destroy(cube);
-        }
-        cubes.Clear();
+        destroyCubes();
 
         generatePoints();
         generateCubes();
     }
 
-    public void updateMapStagnate()
+    void destroyCubes()
     {
-        foreach(GameObject cube in cubes)
+        foreach (GameObject cube in cubes)
         {
             Destroy(cube);
         }
         cubes.Clear();
-
-        generatePoints();
-        generateCubes();
     }
 
-    // Update is called once per frame
+    public void UpdateXSliderValue(float value)
+    {
+        x_offset_input = Mathf.RoundToInt(value);
+        updateCubesPositions();
+    }
+
+    public void UpdateYSliderValue(float value)
+    {
+        y_offset_input = Mathf.RoundToInt(value);
+        updateCubesPositions();
+    }
+
     void Update()
     {
-        
+
     }
 
 

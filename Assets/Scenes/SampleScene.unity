@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 177877723}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1418,7 +1418,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 787675057}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2210,7 +2210,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 881287966}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2891,10 +2891,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubePrefab: {fileID: 1371366373}
-  scale: 0.1
-  magnitude: 12
+  One_Dimensional_x_slider: {fileID: 1456150201}
+  Two_Dimensional_x_slider: {fileID: 443234580}
+  Two_Dimensional_y_slider: {fileID: 1140000060}
+  Three_Dimensional_x_slider: {fileID: 582545575}
+  Three_Dimensional_y_slider: {fileID: 249277367}
   x_offset_input: 0
   y_offset_input: 0
+  scale: 0.1
+  magnitude: 12
 --- !u!1 &1126210044
 GameObject:
   m_ObjectHideFlags: 0
@@ -3016,7 +3021,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 484935527}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -4586,7 +4591,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 5
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: 0
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1916748422
 MeshRenderer:
@@ -4598,9 +4603,9 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
@@ -4608,7 +4613,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9237f0a85bc36b84990d7493ad30862f, type: 2}
+  - {fileID: 2100000, guid: 7c284739bef80e249949a1d90fd5d98e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4647,7 +4652,7 @@ Transform:
   m_GameObject: {fileID: 1916748420}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -960, y: -540, z: -10.45}
+  m_LocalPosition: {x: -960, y: -540, z: -10.49}
   m_LocalScale: {x: 1000, y: 1, z: 1000}
   m_ConstrainProportionsScale: 0
   m_Children: []
