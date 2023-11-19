@@ -46,7 +46,6 @@ public class perlinController : MonoBehaviour
 
     void generateCubes()
     {
-
         foreach (Vector2Int point in points)
         {
             GameObject cube = Instantiate(cubePrefab);
@@ -61,48 +60,36 @@ public class perlinController : MonoBehaviour
             float y = Mathf.PerlinNoise(xCoord, yCoord) * magnitude;
 
             cube.transform.localScale = new Vector3(1, y, 1);
+
+            cube.transform.position = new Vector3(cube.transform.position.x, cube.transform.localScale.y / 2f, cube.transform.position.z);
+
+            Material cubeMat = cube.GetComponent<Renderer>().material;
+            cubeMat.color = new Color(1f - (cube.transform.localScale.y / 10f), 1f - (cube.transform.localScale.y / 10f), 1f - (cube.transform.localScale.y / 10f), 1);
+
             cube.SetActive(true);
-        }
-    }
-
-    void updateCubesPositions()
-    {
-        foreach (Vector2Int point in points)
-        {
-            int index = (point.x - min_x) + (point.y - min_y) * (max_x - min_x);
-
-            float xCoord = (x_offset_input + offset_x + point.x) * scale;
-            float yCoord = (y_offset_input + offset_y + point.y) * scale;
-
-            float y = Mathf.PerlinNoise(xCoord, yCoord) * magnitude;
-
-            cubes[index].transform.position = new Vector3(point.x, y / 2, point.y);
-            cubes[index].transform.localScale = new Vector3(1, y, 1);
         }
     }
 
     void Start()
     {
-        updateMap();
-    }
-
-    void randomizeOffset()
-    {
-        offset_x = UnityEngine.Random.Range(-1000, 1000);
-        offset_y = UnityEngine.Random.Range(-1000, 1000);
-    }
-
-    public void updateMap()
-    {
-        randomizeOffset();
         One_Dimensional_x_slider.onValueChanged.AddListener(UpdateXSliderValue);
         Two_Dimensional_x_slider.onValueChanged.AddListener(UpdateXSliderValue);
         Two_Dimensional_y_slider.onValueChanged.AddListener(UpdateYSliderValue);
         Three_Dimensional_x_slider.onValueChanged.AddListener(UpdateXSliderValue);
         Three_Dimensional_y_slider.onValueChanged.AddListener(UpdateYSliderValue);
+        updateMap();
+    }
 
+    public void randomizeOffset()
+    {
+        offset_x = Random.Range(-1000, 1000);
+        offset_y = Random.Range(-1000, 1000);
+        updateMap();
+    }
+
+    public void updateMap()
+    {
         destroyCubes();
-
         generatePoints();
         generateCubes();
     }
@@ -119,19 +106,12 @@ public class perlinController : MonoBehaviour
     public void UpdateXSliderValue(float value)
     {
         x_offset_input = Mathf.RoundToInt(value);
-        updateCubesPositions();
+        updateMap();
     }
 
     public void UpdateYSliderValue(float value)
     {
         y_offset_input = Mathf.RoundToInt(value);
-        updateCubesPositions();
+        updateMap();
     }
-
-    void Update()
-    {
-
-    }
-
-
 }
