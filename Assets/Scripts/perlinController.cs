@@ -59,7 +59,7 @@ public class perlinController : MonoBehaviour
             float yCoord = (y_offset_input + offset_y + point.y) * scale;
             float y = Mathf.PerlinNoise(xCoord, yCoord) * magnitude;
 
-            cube.transform.localScale = new Vector3(1, y, 1);
+            cube.transform.localScale = new Vector3(1, Mathf.Abs(y), 1);
 
             cube.transform.position = new Vector3(cube.transform.position.x, cube.transform.localScale.y / 2f, cube.transform.position.z);
 
