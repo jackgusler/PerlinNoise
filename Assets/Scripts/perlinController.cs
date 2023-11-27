@@ -20,6 +20,8 @@ public class perlinController : MonoBehaviour
     public int x_offset_input;
     public int y_offset_input;
 
+    bool playing = false;
+
     int min_x = -10;
     int max_x = 10;
 
@@ -113,5 +115,21 @@ public class perlinController : MonoBehaviour
     {
         y_offset_input = Mathf.RoundToInt(value);
         updateMap();
+    }
+
+    public void play() {
+        playing = !playing;
+        if(playing) {
+            StartCoroutine(playCoroutine());
+        }
+    }
+
+    private IEnumerator<float> playCoroutine() {
+        while(playing) {
+            offset_x++;
+            offset_y++;
+            updateMap();
+            yield return 0.1f;
+        }
     }
 }
