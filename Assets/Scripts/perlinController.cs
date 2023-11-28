@@ -34,6 +34,14 @@ public class perlinController : MonoBehaviour
     public float scale = 0.1f;
     public float magnitude = 12f;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     void generatePoints()
     {
         points.Clear();
@@ -124,12 +132,12 @@ public class perlinController : MonoBehaviour
         }
     }
 
-    private IEnumerator<float> playCoroutine() {
+    private IEnumerator<WaitForSeconds> playCoroutine() {
         while(playing) {
-            offset_x++;
+            offset_x--;
             offset_y++;
             updateMap();
-            yield return 0.1f;
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }

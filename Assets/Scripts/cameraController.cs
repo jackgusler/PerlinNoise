@@ -17,7 +17,7 @@ public class cameraController : MonoBehaviour
     public void moveCamera(int pos)
     {
         if(pos == 1){
-            transform.position = new Vector3(-1, 4, -20);
+            transform.position = new Vector3(-0.5f, 4, -20);
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else if(pos == 2){
